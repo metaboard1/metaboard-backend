@@ -17,7 +17,7 @@ app.use(express.static("assets"));
 app.use(express.json());
 
 // app.disable('x-powered-by');
-app.use(helmet());
+// app.use(helmet());
 
 // app.use(bodyParser.urlencoded({ extended: true }));
 
