@@ -9,8 +9,11 @@ app.use(cors({
     origin: [
         'http://localhost:3000',
         "https://metaboard-admin-panel.vercel.app"
-    ]
+    ],
+    credentials: true,
 }))
+
+app.options('*', cors());
 
 app.use(FileUpload({
     tempFileDir: 'assets'
