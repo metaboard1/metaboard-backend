@@ -8,7 +8,8 @@ const app = express();
 app.use(cors({
     origin: [
         'http://localhost:3000',
-        "https://metaboard-admin-panel.vercel.app"
+        "https://metaboard-admin-panel.vercel.app",
+        "https://metaboard.in"
     ],
     credentials: true,
 }))
