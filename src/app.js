@@ -9,7 +9,8 @@ app.use(cors({
     origin: [
         'http://localhost:3000',
         "https://metaboard-admin-panel.vercel.app",
-        "https://metaboard.in"
+        "https://metaboard.in",
+        "https://api.metaboard.in"
     ],
     credentials: true,
 }))
