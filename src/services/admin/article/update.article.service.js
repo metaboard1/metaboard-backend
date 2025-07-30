@@ -35,7 +35,7 @@ const updateArticleService = async (req) => {
     article.set(dbPayload);
     await article.save();
 
-    return success('Article updated successfully.', {updatedArticle: article});
+    return success('Article updated successfully.', {updatedData: article});
 
 };
 
