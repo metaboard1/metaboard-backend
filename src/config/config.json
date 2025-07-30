@@ -3,7 +3,7 @@
     "username": "metaboard-db-admin",
     "password": "8bXnR8OIG1bH6MNeHMppHJePgGomjfNhJc0d3Ld0QaiwJeyCetjK1GsEEZ24WnNW",
     "database": "postgres",
-    "host": "194.238.23.237",
+    "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
