@@ -1,29 +1,23 @@
 {
   "development": {
-    "username": "neondb_owner",
-    "password": "npg_BJel2Wsk7KgS",
-    "database": "metaboard",
-    "host": "ep-steep-brook-a1ecmyjh-pooler.ap-southeast-1.aws.neon.tech",
-    "dialect": "postgres",
-    "dialectOptions": {
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false
-      }
-    },
-    "test": {
-      "username": "root",
-      "password": null,
-      "database": "database_test",
-      "host": "127.0.0.1",
-      "dialect": "postgres"
-    },
-    "production": {
-      "username": "root",
-      "password": null,
-      "database": "database_production",
-      "host": "127.0.0.1",
-      "dialect": "postgres"
-    }
+    "username": "metaboard-db-admin",
+    "password": "8bXnR8OIG1bH6MNeHMppHJePgGomjfNhJc0d3Ld0QaiwJeyCetjK1GsEEZ24WnNW",
+    "database": "postgres",
+    "host": "194.238.23.237",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
   }
 }
