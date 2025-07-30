@@ -1,5 +1,5 @@
 const {error} = require('../../../helpers/response');
-const {createPublicationService}  = require('../../../services/admin/Publication');
+const {createPublicationService}  = require('../../../services/admin/publication');
 
 const createPublicationController = async (req, res) => {
     try {
