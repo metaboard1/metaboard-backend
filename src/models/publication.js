@@ -15,11 +15,13 @@ module.exports = (sequelize, DataTypes) => {
   }
   Publication.init({
     title: DataTypes.STRING,
-    description: DataTypes.STRING,
+    subTitle: DataTypes.STRING,
+    description: DataTypes.TEXT,
     pages: DataTypes.INTEGER,
     isbn: DataTypes.STRING,
     publisher: DataTypes.STRING,
     publicationDate: DataTypes.DATE,
+    price: DataTypes.INTEGER,
     storeLinks: DataTypes.JSON,
     coverImage: DataTypes.STRING,
     isActive: DataTypes.BOOLEAN

@@ -12,8 +12,11 @@ module.exports = {
             title: {
                 type: Sequelize.STRING
             },
-            description: {
+            subTitle: {
                 type: Sequelize.STRING
+            },
+            description: {
+                type: Sequelize.TEXT
             },
             pages: {
                 type: Sequelize.INTEGER
@@ -26,6 +29,9 @@ module.exports = {
             },
             publicationDate: {
                 type: Sequelize.DATE
+            },
+            price: {
+                type: Sequelize.INTEGER
             },
             storeLinks: {
                 type: Sequelize.JSON,
