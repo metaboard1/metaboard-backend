@@ -10,7 +10,6 @@ const {
     updatePublicationController, deletePublicationController
 } = require("../../controllers/admin/publication");
 const {validateFilesMiddleware} = require("../../middlewares");
-const {deleteArticleValidation} = require("../../validations/admin/article.validations");
 
 
 retrieveRouter.get('/admin/metarule/publications', wrapRequestHandler(retrievePublicationController));

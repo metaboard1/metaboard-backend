@@ -16,8 +16,8 @@ app.use(FileUpload({
 app.use(express.static("assets"));
 app.use(express.json());
 
-// app.use(helmet());
-// app.disable('x-powered-by');
+app.disable('x-powered-by');
+app.use(helmet());
 
 // app.use(bodyParser.urlencoded({ extended: true }));
 
