@@ -5,7 +5,7 @@ const sharp = require("sharp");
 
 const updatePublicationService = async (req) => {
 
-    const {id, title, description, pages, isbn, publisher, publicationDate, storeLinks} = req.body;
+    const {id, title, subTitle, description, pages, price, isbn, publisher, publicationDate, storeLinks} = req.body;
     const files = req.files;
 
     let uploadedImage = {};
@@ -26,8 +26,10 @@ const updatePublicationService = async (req) => {
 
     const dbPayload = {
         title,
+        subTitle,
         description,
         pages,
+        price,
         isbn,
         publisher,
         publicationDate,
@@ -37,7 +39,6 @@ const updatePublicationService = async (req) => {
     if (files?.coverImage) {
         dbPayload.coverImage = uploadedImage.fileName + uploadedImage.extension;
     }
-
 
     publication.set(dbPayload);
     await publication.save();

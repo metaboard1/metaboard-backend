@@ -5,8 +5,10 @@ const isbnRegexp = /^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})
 
 const createPublicationValidation = [
     body('title').notEmpty().withMessage('Title is required').bail().isString().withMessage('Title must be a string'),
+    body('subTitle').notEmpty().withMessage('Sub title is required').bail().isString().withMessage('Sub title must be a string'),
     body('description').notEmpty().withMessage('Description is required').bail().isString().withMessage('Description must be a string'),
     body('pages').notEmpty().withMessage('Pages is required').bail().isInt({min: 1}).withMessage('Pages must be a positive integer.'),
+    body('price').notEmpty().withMessage('Price is required').bail().isInt({min: 50}).withMessage('price must be a positive integer.'),
     body('isbn').notEmpty().withMessage('ISBN no is required').bail().matches(isbnRegexp).withMessage('ISBN no must be valid.'),
     body('publisher').notEmpty().withMessage('Publisher name is required').bail().isString().withMessage('Publisher name must be a string'),
     body('publicationDate').notEmpty().withMessage('Publication date is required').bail().isISO8601().withMessage("Publication date must be a valid date.").toDate(),

@@ -6,7 +6,7 @@ const sharp = require('sharp');
 
 const createPublicationService = async (req) => {
 
-    const {title, description, pages, isbn, publisher, publicationDate, storeLinks} = req.body;
+    const {title, subTitle, description, pages, price, isbn, publisher, publicationDate, storeLinks} = req.body;
 
     const {coverImage} = req.files;
 
@@ -21,8 +21,10 @@ const createPublicationService = async (req) => {
         where: {title, isbn},
         defaults: {
             title,
+            subTitle,
             description,
             pages,
+            price,
             isbn,
             publisher,
             publicationDate,
