@@ -1,12 +1,13 @@
 const {createRouter, updateRouter, deleteRouter, retrieveRouter, patchRouter} = require("../apiRouter");
 const {validate} = require("../../helpers/validations");
 const {createArticleValidation, updateArticleValidation, updateArticleContentValidation, deleteArticleValidation,
-    updateArticleStatusValidation, retrieveArticleByIdValidation, updateArticleFeaturedValidation
+    updateArticleStatusValidation, retrieveArticleByIdValidation, updateArticleFeaturedValidation,
+    updateArticleTransferValidation
 } = require("../../validations/admin/article.validations");
 const {wrapRequestHandler} = require("../../helpers/response");
 const {createArticleController, updateArticleController, updateArticleContentController, deleteArticleController,
     updateArticleStatusController, retrieveArticleController, retrieveArticleByIdController,
-    updateArticleFeaturedController
+    updateArticleFeaturedController, updateArticleTransferController
 } = require("../../controllers/admin/article");
 const {validateFilesMiddleware} = require("../../middlewares");
 
@@ -27,6 +28,8 @@ updateRouter.put('/admin/article', validate(updateArticleValidation), wrapReques
 updateRouter.put('/admin/article-content', validate(updateArticleContentValidation), wrapRequestHandler(updateArticleContentController));
 
 patchRouter.patch('/admin/article-set-featured',  validate(updateArticleFeaturedValidation), wrapRequestHandler(updateArticleFeaturedController));
+
+patchRouter.patch('/admin/article-transfer',  validate(updateArticleTransferValidation), wrapRequestHandler(updateArticleTransferController));
 
 patchRouter.patch('/admin/article-status', validate(updateArticleStatusValidation), wrapRequestHandler(updateArticleStatusController));
 

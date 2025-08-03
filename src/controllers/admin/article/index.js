@@ -4,6 +4,7 @@ module.exports = {
     createArticleController: require('./create.article.controller'),
     updateArticleController: require('./update.article.controller'),
     updateArticleContentController: require('./update.articleContent.controller'),
+    updateArticleTransferController: require('./update.articleTransfer.controller'),
     updateArticleFeaturedController: require('./update.articleFeatured.controller'),
     updateArticleStatusController: require('./update.articleStatus.controller'),
     deleteArticleController: require('./delete.article.controller'),

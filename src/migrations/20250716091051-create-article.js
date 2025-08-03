@@ -19,7 +19,7 @@ module.exports = {
                 type: Sequelize.STRING
             },
             authorSocials: {
-                type: Sequelize.JSON,
+                type: Sequelize.JSONB,
                 allowNull: false,
                 defaultValue: {
                     linkedin: '',
@@ -27,17 +27,26 @@ module.exports = {
                     twitter: ''
                 }
             },
+            tags: {
+                type: Sequelize.JSONB,
+                allowNull: false,
+                default: []
+            },
             contentHtml: {
-                type: Sequelize.TEXT
+                type: Sequelize.TEXT,
             },
             contentCss: {
-                type: Sequelize.TEXT
+                type: Sequelize.TEXT,
             },
             estimateReadTime: {
                 type: Sequelize.INTEGER
             },
             coverImage: {
                 type: Sequelize.STRING
+            },
+            isForMetaRule: {
+                type: Sequelize.BOOLEAN,
+                default: false
             },
             isFeatured: {
                 type: Sequelize.BOOLEAN,

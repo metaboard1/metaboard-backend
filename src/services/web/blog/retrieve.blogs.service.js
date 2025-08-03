@@ -2,22 +2,22 @@ const {success} = require('../../../helpers/response');
 const {Article} = require('../../../models');
 const {Op} = require("sequelize");
 
-const retrieveArticlesService = async (req) => {
+const retrieveBlogsService = async (req) => {
 
     const {search, page = 0, limit = 10} = req.query;
 
     let where = {
         isActive: true,
-        isForMetaRule: false
+        isForMetaRule: true
     };
 
     if (search) {
+        const trimSearch = search.trim()
         where = {
             ...where,
             [Op.or]: [
-                {title: {[Op.iLike]: `%${search}%`}},
-                {description: {[Op.iLike]: `%${search}%`}},
-                {author: {[Op.iLike]: `%${search}%`}}
+                {title: {[Op.iLike]: `%${trimSearch}%`}},
+                {description: {[Op.iLike]: `%${trimSearch}%`}},
             ]
         };
     }
@@ -30,17 +30,9 @@ const retrieveArticlesService = async (req) => {
         order: [['id', 'DESC']]
     });
 
-    const featuredArticle = await Article.findOne({
-        where: {
-            isFeatured: true,
-            isActive: true
-        },
-        attributes: {exclude: ['createdAt', 'updatedAt', 'contentHtml', 'contentCss', 'isActive', 'isForMetaRule']},
-    });
 
-
-    return success('', {rows, featuredArticle, count});
+    return success('', {rows, count});
 
 };
 
-module.exports = retrieveArticlesService;
+module.exports = retrieveBlogsService;

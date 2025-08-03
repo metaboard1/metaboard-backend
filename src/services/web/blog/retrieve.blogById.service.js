@@ -1,13 +1,14 @@
 const {success} = require('../../../helpers/response');
 const {Article} = require('../../../models');
 
-const retrieveArticleByIdService = async (req) => {
+const retrieveBlogByIdService = async (req) => {
 
     const {id} = req.query;
 
-    const article = await Article.findOne({
+    const blog = await Article.findOne({
         where: {
             id,
+            isForMetaRule: true,
             isActive: true
         },
         attributes: {
@@ -15,7 +16,7 @@ const retrieveArticleByIdService = async (req) => {
         }
     });
 
-    return success('', article);
+    return success('', blog);
 };
 
-module.exports = retrieveArticleByIdService;
+module.exports = retrieveBlogByIdService;

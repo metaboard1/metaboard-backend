@@ -27,6 +27,10 @@ const updateArticleContentValidation = [
     body("html").notEmpty().withMessage("Content html is required."),
 ];
 
+const updateArticleTransferValidation = [
+    body("id").notEmpty().withMessage("ID is required.").bail().isInt({min: 1}).withMessage("ID must be a positive integer."),
+];
+
 const updateArticleFeaturedValidation = [
     body("id").notEmpty().withMessage("ID is required.").bail().isInt({min: 1}).withMessage("ID must be a positive integer."),
 ];
@@ -44,6 +48,7 @@ module.exports = {
     createArticleValidation,
     updateArticleValidation,
     updateArticleContentValidation,
+    updateArticleTransferValidation,
     updateArticleFeaturedValidation,
     updateArticleStatusValidation,
     deleteArticleValidation
