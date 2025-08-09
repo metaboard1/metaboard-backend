@@ -24,7 +24,7 @@ const retrieveBlogsService = async (req) => {
 
     const {count, rows} = await Article.findAndCountAll({
         where,
-        attributes: {exclude: ['createdAt', 'updatedAt', 'contentHtml', 'contentCss', 'isActive', 'estimateReadTime', 'isForMetaRule']},
+        attributes: {exclude: ['createdAt', 'updatedAt', 'contentHtml', 'contentCss', 'isActive', 'isForMetaRule']},
         limit,
         offset: page * limit,
         order: [['id', 'DESC']]
