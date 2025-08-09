@@ -44,6 +44,9 @@ module.exports = {
             coverImage: {
                 type: Sequelize.STRING
             },
+            coverUrl:{
+                type: Sequelize.TEXT
+            },
             isForMetaRule: {
                 type: Sequelize.BOOLEAN,
                 default: false

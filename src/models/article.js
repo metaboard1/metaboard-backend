@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     contentCss: DataTypes.TEXT,
     estimateReadTime: DataTypes.INTEGER,
     coverImage: DataTypes.STRING,
+    coverUrl: DataTypes.TEXT,
     isForMetaRule: DataTypes.BOOLEAN,
     isFeatured: DataTypes.BOOLEAN,
     isActive: DataTypes.BOOLEAN,

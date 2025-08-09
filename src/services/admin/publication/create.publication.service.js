@@ -1,8 +1,7 @@
 const {success, error} = require('../../../helpers/response');
 const {Publication} = require('../../../models');
-const {uploadOptimizedFile} = require("../../../helpers/fileUpload");
-const sharp = require('sharp');
-
+const {fsWriteFileToDisk, cloudFileUploader} = require("../../../helpers/fileUpload");
+const imageOptimizer = require("../../../helpers/imageOptimizer");
 
 const createPublicationService = async (req) => {
 
@@ -10,12 +9,13 @@ const createPublicationService = async (req) => {
 
     const {coverImage} = req.files;
 
-    const optimizedImage = await sharp(coverImage.data).webp({
-        quality: 70,
-        lossless: false,
-    }).toBuffer();
+    const optimizedImage = await imageOptimizer(coverImage.data)
 
-    const {fileName, extension} = await uploadOptimizedFile(optimizedImage, '.webp', 'publication', 'publications');
+    const {fileName, extension} = await fsWriteFileToDisk(optimizedImage, '.webp', 'publication', 'publications');
+
+    const {secure_url: coverUrl} = await cloudFileUploader(fileName, extension, 'publications');
+
+
 
     const [publication, isCreated] = await Publication.findOrCreate({
         where: {title, isbn},
@@ -30,9 +30,11 @@ const createPublicationService = async (req) => {
             publicationDate,
             storeLinks,
             coverImage: fileName + extension,
+            coverUrl,
             isActive: false,
         }
     });
+
 
     if (!isCreated) {
         return error('Publication already exist.')

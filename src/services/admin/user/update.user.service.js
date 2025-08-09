@@ -1,6 +1,6 @@
 const {success, error} = require('../../../helpers/response');
 const {User} = require('../../../models');
-const {fileUpload} = require("../../../helpers/fileUpload");
+const {expressFileUpload, fsUnlinkFromDisk} = require("../../../helpers/fileUpload");
 const {generateBcrypt} = require("../../../helpers/bcrypt");
 
 const updateUserService = async (req) => {
@@ -24,10 +24,10 @@ const updateUserService = async (req) => {
     }
 
     if (files?.avatar) {
-        const {fileName, extension} = await fileUpload(files.avatar, 'user', 'users-avatar');
+        const {fileName, extension} = await expressFileUpload(files.avatar, 'user', 'users-avatar');
+        fsUnlinkFromDisk(user.avatar, 'users-avatar');
         dbPayload.avatar = fileName + extension;
     }
-
 
     user.set(dbPayload);
     await user.save();

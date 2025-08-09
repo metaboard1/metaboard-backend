@@ -1,7 +1,7 @@
 const {success, error} = require('../../../helpers/response');
 const {Publication} = require('../../../models');
-const {uploadOptimizedFile} = require("../../../helpers/fileUpload");
-const sharp = require("sharp");
+const {fsWriteFileToDisk, cloudFileUploader, cloudUnlinkFile, fsUnlinkFromDisk} = require("../../../helpers/fileUpload");
+const imageOptimizer = require("../../../helpers/imageOptimizer");
 
 const updatePublicationService = async (req) => {
 
@@ -9,6 +9,7 @@ const updatePublicationService = async (req) => {
     const files = req.files;
 
     let uploadedImage = {};
+    let coverUrl = '';
 
     const publication = await Publication.findByPk(id);
 
@@ -17,11 +18,17 @@ const updatePublicationService = async (req) => {
     }
 
     if (files?.coverImage) {
-        const optimizedImage = await sharp(files.coverImage.data).webp({
-            quality: 70,
-            lossless: false,
-        }).toBuffer();
-        uploadedImage = await uploadOptimizedFile(optimizedImage, '.webp', 'publication', 'publications');
+
+        const optimizedImage = await imageOptimizer(files.coverImage.data);
+
+        uploadedImage = await fsWriteFileToDisk(optimizedImage, '.webp', 'publication', 'publications');
+
+        coverUrl = (await cloudFileUploader(uploadedImage.fileName, uploadedImage.extension, 'publications')).secure_url;
+
+        if (publication.coverImage){
+            fsUnlinkFromDisk(publication.coverImage, 'publications')
+            cloudUnlinkFile('publications', publication.coverImage.split('.')[0]);
+        }
     }
 
     const dbPayload = {
@@ -38,6 +45,7 @@ const updatePublicationService = async (req) => {
 
     if (files?.coverImage) {
         dbPayload.coverImage = uploadedImage.fileName + uploadedImage.extension;
+        dbPayload.coverUrl = coverUrl;
     }
 
     publication.set(dbPayload);

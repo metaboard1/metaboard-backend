@@ -3,7 +3,7 @@
     "username": "metaboard-db-admin",
     "password": "8bXnR8OIG1bH6MNeHMppHJePgGomjfNhJc0d3Ld0QaiwJeyCetjK1GsEEZ24WnNW",
     "database": "postgres",
-    "host": "hogs0gw84k0kckw040gc8ss0",
+    "host": "194.238.23.237",
     "dialect": "postgres"
   },
   "test": {
@@ -18,6 +18,8 @@
     "password": null,
     "database": "database_production",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "use_env_variable": "PRODUCTION_DATABASE_URL",
+    "logging": false
   }
 }

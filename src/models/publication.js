@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER,
     storeLinks: DataTypes.JSON,
     coverImage: DataTypes.STRING,
+    coverUrl: DataTypes.TEXT,
     isActive: DataTypes.BOOLEAN
   }, {
     sequelize,

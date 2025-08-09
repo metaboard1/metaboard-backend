@@ -1,6 +1,6 @@
 const {success, error} = require('../../../helpers/response');
 const {User} = require('../../../models');
-const {fileUpload} = require("../../../helpers/fileUpload");
+const {expressFileUpload} = require("../../../helpers/fileUpload");
 const {generateBcrypt} = require("../../../helpers/bcrypt");
 
 const createUserService = async (req) => {
@@ -8,9 +8,7 @@ const createUserService = async (req) => {
     const {name, email, password} = req.body;
     const {avatar} = req.files;
 
-    const {fileName, extension} = await fileUpload(avatar, 'user', 'users-avatar');
-
-
+    const {fileName, extension} = await expressFileUpload(avatar, 'user', 'users-avatar');
 
     let [user, isCreated] = await User.findOrCreate({
         where: {email},
@@ -32,7 +30,6 @@ const createUserService = async (req) => {
     delete user.password;
 
     return success('User created successfully.', {createdData: user});
-
 };
 
 module.exports = createUserService;

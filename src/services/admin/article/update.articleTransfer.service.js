@@ -10,9 +10,6 @@ const updateArticleTransferService = async (req) => {
     if (!article) {
         return error(`Article with ID "${id}" not found. Cannot update a non-existent article.`);
     }
-    if (!article.isActive) {
-        return error('Please activate the article before setting it as featured.');
-    }
 
     article.isForMetaRule = !article.isForMetaRule;
 
