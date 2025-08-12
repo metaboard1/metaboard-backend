@@ -1,12 +1,13 @@
 const {success, error} = require('../../../helpers/response');
-const {Article} = require('../../../models');
+const {Article, Tag} = require('../../../models');
 const {fsWriteFileToDisk, cloudFileUploader} = require("../../../helpers/fileUpload");
 const imageOptimizer = require("../../../helpers/imageOptimizer");
 
 const createArticleService = async (req) => {
 
-    const {title, description, author, authorSocials, estimateReadTime} = req.body;
+    const {title, description, author, authorSocials, estimateReadTime, tags} = req.body;
     const {coverImage} = req.files;
+    const articleTags = tags.trim().split(',');
 
     const optimizedImage = await imageOptimizer(coverImage.data)
 
@@ -24,11 +25,16 @@ const createArticleService = async (req) => {
             authorSocials,
             estimateReadTime,
             coverImage: fileName + extension,
+            tags: articleTags,
             coverUrl,
             isFeatured: false,
             isActive: false,
             publishedAt: new Date()
         }
+    });
+
+    await Tag.bulkCreate(articleTags.map((e) => ({name: e})), {
+        ignoreDuplicates: true
     });
 
     if (!isCreated) {

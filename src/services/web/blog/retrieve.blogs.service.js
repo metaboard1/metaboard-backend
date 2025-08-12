@@ -1,6 +1,6 @@
 const {success} = require('../../../helpers/response');
 const {Article} = require('../../../models');
-const {Op} = require("sequelize");
+const {Op, Sequelize} = require("sequelize");
 
 const retrieveBlogsService = async (req) => {
 
@@ -11,15 +11,34 @@ const retrieveBlogsService = async (req) => {
         isForMetaRule: true
     };
 
+    // if (search) {
+    //     const trimSearch = search.trim()
+    //     where = {
+    //         ...where,
+    //         [Op.or]: [
+    //             {title: {[Op.iLike]: `%${trimSearch}%`}},
+    //             {description: {[Op.iLike]: `%${trimSearch}%`}},
+    //         ]
+    //     };
+    // }
+
     if (search) {
-        const trimSearch = search.trim()
+        let decodedSearch = decodeURIComponent(search);
+
         where = {
             ...where,
-            [Op.or]: [
-                {title: {[Op.iLike]: `%${trimSearch}%`}},
-                {description: {[Op.iLike]: `%${trimSearch}%`}},
-            ]
-        };
+            [Op.or]: decodedSearch.charAt(0) !== '#' ?
+                [
+                    {title: {[Op.iLike]: `%${decodedSearch}%`}},
+                    {description: {[Op.iLike]: `%${decodedSearch}%`}},
+                ]
+                :
+                [
+                    Sequelize.literal(`CAST(id AS TEXT) LIKE '%${decodedSearch.slice(1)}%'`),
+                    {tags: {[Op.contains]: [decodedSearch.slice(1)]}}
+                ]
+        }
+
     }
 
     const {count, rows} = await Article.findAndCountAll({

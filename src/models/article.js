@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     author: DataTypes.STRING,
     authorSocials: DataTypes.JSON,
+    tags: DataTypes.JSON,
     contentHtml: DataTypes.TEXT,
     contentCss: DataTypes.TEXT,
     estimateReadTime: DataTypes.INTEGER,

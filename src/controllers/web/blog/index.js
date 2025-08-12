@@ -1,4 +1,4 @@
 module.exports = {
     retrieveBlogsController: require('./retrieve.blogs.controller'),
-    retrieveBlogByIdController: require('./retrieve.blogById.controller'),
+    retrieveBlogDetailsController: require('./retrieve.blogDetails.controller'),
 };

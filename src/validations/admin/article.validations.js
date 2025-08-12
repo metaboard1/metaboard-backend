@@ -10,6 +10,7 @@ const createArticleValidation = [
     body('description').notEmpty().withMessage('Description is required').bail().isString().withMessage('Description must be a string'),
     body('author').notEmpty().withMessage('Author is required').bail().isString().withMessage('Author must be a string'),
     body('estimateReadTime').notEmpty().withMessage('Estimate read time is required').bail().isInt({min: 1}).withMessage('Estimate read time must be a positive integer.'),
+    body('tags').notEmpty().withMessage('Tags is required').bail().custom((tagsStr)=> tagsStr.trim().split(',').every((elem)=>/^[a-z]+$/.test(elem))).withMessage('Tag must contain only alphabets (a–z), for example: travel,adventure,nature and special characters are not allowed.'),
     // body('coverImage').notEmpty().withMessage('Estimate read time is required').bail().isString().withMessage('Estimate read time must be a string'),
     body('authorSocials').optional().isJSON().withMessage('Author socials must be valid JSON').customSanitizer((value) =>JSON.parse(value)),
     body('authorSocials.twitter').optional().isString().withMessage('Twitter handle must be a string'),

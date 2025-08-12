@@ -1,15 +1,21 @@
 const {success, error} = require('../../../helpers/response');
-const {Article} = require('../../../models');
-const {expressFileUpload, fsWriteFileToDisk, cloudFileUploader, fsUnlinkFromDisk, cloudUnlinkFile} = require("../../../helpers/fileUpload");
+const {Article, Tag} = require('../../../models');
+const {
+    expressFileUpload,
+    fsWriteFileToDisk,
+    cloudFileUploader,
+    fsUnlinkFromDisk,
+    cloudUnlinkFile
+} = require("../../../helpers/fileUpload");
 const imageOptimizer = require("../../../helpers/imageOptimizer");
 
 const updateArticleService = async (req) => {
 
-    const {id, title, description, author, authorSocials, estimateReadTime} = req.body;
+    const {id, title, description, author, authorSocials, estimateReadTime, tags} = req.body;
     const files = req.files;
     let uploadedImage = {};
     let coverUrl = '';
-
+    const articleTags = tags.trim().split(',');
 
     const article = await Article.findByPk(id);
 
@@ -24,7 +30,7 @@ const updateArticleService = async (req) => {
 
         coverUrl = (await cloudFileUploader(uploadedImage.fileName, uploadedImage.extension, 'articles')).secure_url;
 
-        if (article.coverImage){
+        if (article.coverImage) {
             fsUnlinkFromDisk(article.coverImage, 'articles')
             cloudUnlinkFile('articles', article.coverImage.split('.')[0]);
         }
@@ -35,7 +41,8 @@ const updateArticleService = async (req) => {
         description,
         author,
         authorSocials,
-        estimateReadTime
+        estimateReadTime,
+        tags: articleTags
     };
 
     if (files?.coverImage) {
@@ -45,6 +52,10 @@ const updateArticleService = async (req) => {
 
     article.set(dbPayload);
     await article.save();
+
+    await Tag.bulkCreate(articleTags.map((e) => ({name: e})), {
+        ignoreDuplicates: true
+    });
 
     return success('Article updated successfully.', {updatedData: article});
 
