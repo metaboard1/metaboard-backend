@@ -6,7 +6,9 @@ const {v2: cloudinary} = require('cloudinary');
 const expressFileUpload = async (file, prefix, dir) => {
     const fileName = `${prefix}-${file.md5 + +new Date + 1}`;
     const extension = path.extname(file.name);
-    await file.mv(`assets/uploads/${dir}/` + fileName + extension);
+    const fullPath = path.join(process.cwd(), `assets/uploads/${dir}`, fileName + extension);
+    await fs.mkdir(path.dirname(fullPath), {recursive: true});
+    await file.mv(fullPath);
     return {fileName, extension};
 }
 

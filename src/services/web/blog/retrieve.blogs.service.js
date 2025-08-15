@@ -11,17 +11,6 @@ const retrieveBlogsService = async (req) => {
         isForMetaRule: true
     };
 
-    // if (search) {
-    //     const trimSearch = search.trim()
-    //     where = {
-    //         ...where,
-    //         [Op.or]: [
-    //             {title: {[Op.iLike]: `%${trimSearch}%`}},
-    //             {description: {[Op.iLike]: `%${trimSearch}%`}},
-    //         ]
-    //     };
-    // }
-
     if (search) {
         let decodedSearch = decodeURIComponent(search);
 
