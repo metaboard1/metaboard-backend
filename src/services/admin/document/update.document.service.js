@@ -32,8 +32,8 @@ const updateDocumentService = async (req) => {
         }
 
         dbPayload.file = fileName + extension;
+        dbPayload.fileSize = files.file.size;
     }
-
 
     document.set(dbPayload);
     await document.save();
