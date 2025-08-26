@@ -1,8 +1,7 @@
 const {success, error} = require('../../../helpers/response');
 const {Document} = require('../../../models');
 const {
-    expressFileUpload,
-    fsUnlinkFromDisk,
+     s3UploadFile, s3DeleteFile,
 } = require("../../../helpers/fileUpload");
 
 const updateDocumentService = async (req) => {
@@ -25,13 +24,19 @@ const updateDocumentService = async (req) => {
 
     if (files?.file) {
 
-        let {fileName, extension} = await expressFileUpload(files.file, 'file', 'documents');
+        let {
+            fileName,
+            extension
+        } = await s3UploadFile(files.file, 'documents', `.${files.file.name.split('.')[1]}`, files.file.mimetype);
+
+        const fileUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/documents/${fileName}${extension}`;
 
         if (document.file) {
-            fsUnlinkFromDisk(document.file, 'documents');
+            s3DeleteFile(`documents/${document.file}`);
         }
 
         dbPayload.file = fileName + extension;
+        dbPayload.fileUrl = fileUrl;
         dbPayload.fileSize = files.file.size;
     }
 

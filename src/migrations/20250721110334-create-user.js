@@ -18,6 +18,9 @@ module.exports = {
             avatar: {
                 type: Sequelize.STRING
             },
+            avatarUrl: {
+                type: Sequelize.TEXT
+            },
             password: {
                 type: Sequelize.STRING
             },

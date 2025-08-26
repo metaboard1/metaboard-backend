@@ -1,6 +1,6 @@
 const {success, error} = require('../../../helpers/response');
 const {Article, Tag} = require('../../../models');
-const {fsWriteFileToDisk, cloudFileUploader} = require("../../../helpers/fileUpload");
+const {s3UploadFile} = require("../../../helpers/fileUpload");
 const imageOptimizer = require("../../../helpers/imageOptimizer");
 
 const createArticleService = async (req) => {
@@ -9,12 +9,11 @@ const createArticleService = async (req) => {
     const {coverImage} = req.files;
     const articleTags = tags.trim().split(',');
 
-    const optimizedImage = await imageOptimizer(coverImage.data)
+    const optimizedImage = await imageOptimizer(coverImage.data);
 
-    const {fileName, extension} = await fsWriteFileToDisk(optimizedImage, '.webp', 'article', 'articles');
+    const {fileName, extension} = await s3UploadFile(optimizedImage, 'articles', '.webp', 'image/webp');
 
-    const {secure_url: coverUrl} = await cloudFileUploader(fileName, extension, 'articles');
-
+    const coverUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/articles/${fileName}${extension}`;
 
     const [article, isCreated] = await Article.findOrCreate({
         where: {title},

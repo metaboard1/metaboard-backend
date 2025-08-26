@@ -26,7 +26,7 @@ const retrieveArticleDetailsService = async (req) => {
             isActive: true,
             isForMetaRule: false,
         },
-        attribute: ['id', 'title', 'coverImage', 'publishedAt'],
+        attribute: ['id', 'title', 'coverImage', 'coverUrl', 'publishedAt'],
         order: Sequelize.literal('RANDOM()'),
         limit: 5
     });

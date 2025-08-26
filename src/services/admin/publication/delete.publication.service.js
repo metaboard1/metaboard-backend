@@ -1,6 +1,6 @@
 const {success, error} = require('../../../helpers/response');
 const {Publication} = require('../../../models');
-const {fsUnlinkFromDisk, cloudUnlinkFile} = require("../../../helpers/fileUpload");
+const {s3DeleteFile} = require("../../../helpers/fileUpload");
 
 const deletePublicationService = async (req) => {
 
@@ -17,8 +17,7 @@ const deletePublicationService = async (req) => {
     });
 
     if (isDeleted && publication.coverImage) {
-        fsUnlinkFromDisk(publication.coverImage);
-        cloudUnlinkFile('publications', publication.coverImage.split('.')[0]);
+        s3DeleteFile(`publications/${publication.coverImage}`);
     }
     return success('Publication deleted successfully.', {deletedData: id});
 };

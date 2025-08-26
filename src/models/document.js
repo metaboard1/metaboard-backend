@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     estimateReadTime: DataTypes.INTEGER,
     file: DataTypes.STRING,
+    fileUrl: DataTypes.TEXT,
     fileSize: DataTypes.STRING,
     fileType: DataTypes.STRING,
     isActive: DataTypes.BOOLEAN

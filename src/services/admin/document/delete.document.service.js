@@ -1,6 +1,6 @@
 const {success, error} = require('../../../helpers/response');
 const {Document} = require('../../../models');
-const {fsUnlinkFromDisk} = require("../../../helpers/fileUpload");
+const {fsUnlinkFromDisk, s3DeleteFile} = require("../../../helpers/fileUpload");
 
 const deleteDocumentService = async (req) => {
 
@@ -17,7 +17,7 @@ const deleteDocumentService = async (req) => {
     });
 
     if (isDeleted && document.file) {
-        fsUnlinkFromDisk(document.file, 'documents');
+        s3DeleteFile(`documents/${document.file}`);
     }
 
     return success('Document deleted successfully.', {deletedData: id});

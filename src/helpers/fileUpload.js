@@ -1,6 +1,7 @@
 const path = require('path')
 const fs = require('fs/promises');
 const {v2: cloudinary} = require('cloudinary');
+const {PutObjectCommand, DeleteObjectCommand} = require("@aws-sdk/client-s3");
 
 
 const expressFileUpload = async (file, prefix, dir) => {
@@ -35,7 +36,31 @@ const cloudUnlinkFile = async (path, fileName) => {
 }
 
 const fsUnlinkFromDisk = async (file, ...rest) => {
-   await fs.unlink(path.join(process.cwd(), 'assets', 'uploads', ...rest, file))
+    await fs.unlink(path.join(process.cwd(), 'assets', 'uploads', ...rest, file))
+}
+
+
+const s3UploadFile = async (buffer, dir, ext, mimeType) => {
+    const timestamp = Date.now();
+    const fileName = `${dir.slice(0, -1)}-${timestamp}`;
+    const params = {
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: `${dir}/${fileName}${ext}`,
+        Body: buffer,
+        ContentLength: buffer.length,
+        ContentType: mimeType,
+    };
+    const command = new PutObjectCommand(params);
+    await global.s3Client.send(command);
+    return {fileName: fileName, extension: ext};
+}
+
+const s3DeleteFile = async (path) => {
+    const command = new DeleteObjectCommand({
+        Bucket: process.env.AWS_S3_BUCKET,
+        Key: path,
+    });
+    await global.s3Client.send(command);
 }
 
 module.exports = {
@@ -43,5 +68,7 @@ module.exports = {
     fsWriteFileToDisk,
     cloudFileUploader,
     cloudUnlinkFile,
-    fsUnlinkFromDisk
+    fsUnlinkFromDisk,
+    s3UploadFile,
+    s3DeleteFile
 }

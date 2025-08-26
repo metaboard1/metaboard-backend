@@ -19,6 +19,7 @@ module.exports = {
             description: faker.lorem.paragraphs(2),
             estimateReadTime: faker.number.int({min: 5, max: 100}),
             file: null,
+            fileUrl: null,
             fileSize: faker.number.int({min: 1, max: 1048576}),
             isActive: true,
             createdAt: new Date(),

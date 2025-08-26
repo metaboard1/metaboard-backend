@@ -21,6 +21,9 @@ module.exports = {
             file: {
                 type: Sequelize.STRING
             },
+            fileUrl:{
+                type: Sequelize.TEXT
+            },
             fileSize: {
                 type: Sequelize.STRING
             },

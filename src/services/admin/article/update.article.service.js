@@ -1,11 +1,7 @@
 const {success, error} = require('../../../helpers/response');
 const {Article, Tag} = require('../../../models');
 const {
-    expressFileUpload,
-    fsWriteFileToDisk,
-    cloudFileUploader,
-    fsUnlinkFromDisk,
-    cloudUnlinkFile
+    s3UploadFile, s3DeleteFile
 } = require("../../../helpers/fileUpload");
 const imageOptimizer = require("../../../helpers/imageOptimizer");
 
@@ -26,13 +22,12 @@ const updateArticleService = async (req) => {
     if (files?.coverImage) {
         const optimizedImage = await imageOptimizer(files.coverImage.data);
 
-        uploadedImage = await fsWriteFileToDisk(optimizedImage, '.webp', 'article', 'articles');
+        uploadedImage = await s3UploadFile(optimizedImage, 'articles', '.webp', 'image/webp');
 
-        coverUrl = (await cloudFileUploader(uploadedImage.fileName, uploadedImage.extension, 'articles')).secure_url;
+        coverUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/articles/${uploadedImage.fileName}${uploadedImage.extension}`;
 
         if (article.coverImage) {
-            fsUnlinkFromDisk(article.coverImage, 'articles')
-            cloudUnlinkFile('articles', article.coverImage.split('.')[0]);
+            s3DeleteFile(`articles/${article.coverImage}`);
         }
     }
 
