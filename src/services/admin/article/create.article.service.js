@@ -27,6 +27,7 @@ const createArticleService = async (req) => {
             tags: articleTags,
             coverUrl,
             isFeatured: false,
+            isForMetaRule: false,
             isActive: false,
             publishedAt: new Date()
         }
