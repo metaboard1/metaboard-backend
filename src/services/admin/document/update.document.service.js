@@ -24,10 +24,7 @@ const updateDocumentService = async (req) => {
 
     if (files?.file) {
 
-        let {
-            fileName,
-            extension
-        } = await s3UploadFile(files.file, 'documents', `.${files.file.name.split('.')[1]}`, files.file.mimetype);
+        let {fileName,extension} = await s3UploadFile(files.file.data, 'documents', `.${files.file.name.split('.')[1]}`, files.file.mimetype);
 
         const fileUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/documents/${fileName}${extension}`;
 
