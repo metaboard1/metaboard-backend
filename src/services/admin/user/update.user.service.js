@@ -1,7 +1,8 @@
 const {success, error} = require('../../../helpers/response');
 const {User} = require('../../../models');
-const {expressFileUpload, fsUnlinkFromDisk} = require("../../../helpers/fileUpload");
+const {s3UploadFile, s3DeleteFile} = require("../../../helpers/fileUpload");
 const {generateBcrypt} = require("../../../helpers/bcrypt");
+const imageOptimizer = require("../../../helpers/imageOptimizer");
 
 const updateUserService = async (req) => {
 
@@ -19,14 +20,22 @@ const updateUserService = async (req) => {
         email
     };
 
-    if (password){
+    if (password) {
         dbPayload.password = generateBcrypt(password);
     }
 
     if (files?.avatar) {
-        const {fileName, extension} = await expressFileUpload(files.avatar, 'user', 'users-avatar');
-        fsUnlinkFromDisk(user.avatar, 'users-avatar');
+
+        const optimizedImage = await imageOptimizer(files.avatar.data);
+
+        const {fileName, extension} = await s3UploadFile(optimizedImage, 'users', '.webp', 'image/webp');
+
+        const avatarUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/users/${fileName}${extension}`;
+
+        s3DeleteFile(`articles/${user.avatar}`);
+
         dbPayload.avatar = fileName + extension;
+        dbPayload.avatarUrl = avatarUrl;
     }
 
     user.set(dbPayload);

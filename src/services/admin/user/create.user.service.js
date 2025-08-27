@@ -1,6 +1,6 @@
 const {success, error} = require('../../../helpers/response');
 const {User} = require('../../../models');
-const {expressFileUpload, s3UploadFile} = require("../../../helpers/fileUpload");
+const {s3UploadFile} = require("../../../helpers/fileUpload");
 const {generateBcrypt} = require("../../../helpers/bcrypt");
 const imageOptimizer = require("../../../helpers/imageOptimizer");
 
@@ -9,7 +9,6 @@ const createUserService = async (req) => {
     const {name, email, password} = req.body;
     const {avatar} = req.files;
 
-    // const {fileName, extension} = await expressFileUpload(avatar, 'user', 'users-avatar');
 
     const optimizedImage = await imageOptimizer(avatar.data);
 
