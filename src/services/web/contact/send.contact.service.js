@@ -11,8 +11,8 @@ const sendContactService = async (req) => {
         host: 'smtp.gmail.com',
         port: 587,
         auth: {
-            user: 'agrac408@gmail.com',
-            pass: 'wcjmaggojcrjhceg'
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASSWORD
         }
     });
 
@@ -25,8 +25,8 @@ const sendContactService = async (req) => {
     }, async (error, template) => {
         if (!error) {
             transporter.sendMail({
-                from: 'agrac408@gmail.com',
-                to: 'yashkumarjha20@gmail.com',
+                from: process.env.SMTP_USER,
+                to: process.env.SMTP_USER,
                 subject: "New Lead",
                 html: template
             });
@@ -36,7 +36,7 @@ const sendContactService = async (req) => {
     ejs.renderFile(path.join(process.cwd(), 'src/views/', 'userEmailTemplate.ejs'), {name}, async (error, template) => {
         if (!error) {
             transporter.sendMail({
-                from: 'agrac408@gmail.com',
+                from: process.env.SMTP_USER,
                 to: email,
                 subject: "",
                 html: template
