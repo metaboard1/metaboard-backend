@@ -1,6 +1,6 @@
 const {success} = require('../../../helpers/response');
 const {Article} = require('../../../models');
-const {Op} = require("sequelize");
+const {Op, Sequelize} = require("sequelize");
 
 const retrieveArticlesService = async (req) => {
 
@@ -12,14 +12,23 @@ const retrieveArticlesService = async (req) => {
     };
 
     if (search) {
+        let decodedSearch = decodeURIComponent(search);
+
         where = {
             ...where,
-            [Op.or]: [
-                {title: {[Op.iLike]: `%${search}%`}},
-                {description: {[Op.iLike]: `%${search}%`}},
-                {author: {[Op.iLike]: `%${search}%`}}
-            ]
-        };
+            [Op.or]: decodedSearch.charAt(0) !== '#' ?
+                [
+                    {title: {[Op.iLike]: `%${decodedSearch}%`}},
+                    {description: {[Op.iLike]: `%${decodedSearch}%`}},
+                    {author: {[Op.iLike]: `%${search}%`}}
+                ]
+                :
+                [
+                    Sequelize.literal(`CAST(id AS TEXT) LIKE '%${decodedSearch.slice(1)}%'`),
+                    {tags: {[Op.contains]: [decodedSearch.slice(1)]}}
+                ]
+        }
+
     }
 
     const {count, rows} = await Article.findAndCountAll({
