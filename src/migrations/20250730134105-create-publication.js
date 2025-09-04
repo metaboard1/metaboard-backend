@@ -33,13 +33,8 @@ module.exports = {
             price: {
                 type: Sequelize.INTEGER
             },
-            storeLinks: {
-                type: Sequelize.JSON,
-                allowNull: false,
-                defaultValue: {
-                    amazon: '',
-                    flipkart: ''
-                }
+            storeLink: {
+                type: Sequelize.STRING
             },
             coverImage: {
                 type: Sequelize.STRING

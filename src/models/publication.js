@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     publisher: DataTypes.STRING,
     publicationDate: DataTypes.DATE,
     price: DataTypes.INTEGER,
-    storeLinks: DataTypes.JSON,
+    storeLink: DataTypes.STRING,
     coverImage: DataTypes.STRING,
     coverUrl: DataTypes.TEXT,
     isActive: DataTypes.BOOLEAN
