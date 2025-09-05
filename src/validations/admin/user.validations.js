@@ -1,5 +1,4 @@
-const { body } = require("express-validator");
-
+const {body} = require("express-validator");
 
 
 const createUserValidation = [
@@ -7,7 +6,7 @@ const createUserValidation = [
         .trim()
         .notEmpty()
         .withMessage('Name is required')
-        .isLength({ min: 2, max: 50 })
+        .isLength({min: 2, max: 50})
         .withMessage('Name must be between 2 and 50 characters')
         .matches(/^[a-zA-Z\s]+$/)
         .withMessage('Name can only contain letters and spaces'),
@@ -17,16 +16,24 @@ const createUserValidation = [
         .isEmail()
         .withMessage('Please enter a valid email address')
         .normalizeEmail()
-        .isLength({ max: 100 })
+        .isLength({max: 100})
         .withMessage('Email must not exceed 100 characters'),
+
+    body('role')
+        .notEmpty()
+        .withMessage('Role is required')
+        .bail()
+        .isIn(['admin', 'manager'])
+        .withMessage('Role must be one of: admin, manager.'),
 
     body('password')
         .notEmpty()
         .withMessage('Password is required')
-        .isLength({ min: 8, max: 128 })
+        .isLength({min: 8, max: 128})
         .withMessage('Password must be between 8 and 128 characters')
         .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)
         .withMessage('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'),
+
 ];
 
 const updateUserValidation = [
@@ -34,7 +41,7 @@ const updateUserValidation = [
         .trim()
         .notEmpty()
         .withMessage('Name is required')
-        .isLength({ min: 2, max: 50 })
+        .isLength({min: 2, max: 50})
         .withMessage('Name must be between 2 and 50 characters')
         .matches(/^[a-zA-Z\s]+$/)
         .withMessage('Name can only contain letters and spaces'),
@@ -44,12 +51,19 @@ const updateUserValidation = [
         .isEmail()
         .withMessage('Please enter a valid email address')
         .normalizeEmail()
-        .isLength({ max: 100 })
+        .isLength({max: 100})
         .withMessage('Email must not exceed 100 characters'),
+    
+    body('role')
+        .notEmpty()
+        .withMessage('Role is required')
+        .bail()
+        .isIn(['admin', 'manager'])
+        .withMessage('Role must be one of: admin, manager.'),
 
     body('password')
         .optional()
-        .isLength({ min: 8, max: 128 })
+        .isLength({min: 8, max: 128})
         .withMessage('Password must be between 8 and 128 characters')
         .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)
         .withMessage('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'),

@@ -18,6 +18,9 @@ module.exports = {
             description: {
                 type: Sequelize.TEXT
             },
+            authors: {
+                type: Sequelize.STRING
+            },
             pages: {
                 type: Sequelize.INTEGER
             },

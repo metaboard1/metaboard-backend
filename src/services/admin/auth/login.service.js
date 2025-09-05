@@ -11,6 +11,8 @@ const loginService = async (req) => {
 
     if (!user || !compareBcrypt(password, user.password)) return error("Invalid email or password");
 
+    if (!user.isActive) return error("You are inactive by admin.");
+
     user = user.get({plain: true});
     delete user.password;
 

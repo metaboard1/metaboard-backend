@@ -1,4 +1,3 @@
-
 const {success, error} = require('../../../helpers/response');
 const {User} = require('../../../models');
 const {Op} = require("sequelize");
@@ -12,8 +11,8 @@ const retrieveUsersService = async (req) => {
     if (search) {
         where = {
             [Op.or]: [
-                { name: { [Op.iLike]: `%${search}%` } },
-                { email: { [Op.iLike]: `%${search}%` } },
+                {name: {[Op.iLike]: `%${search}%`}},
+                {email: {[Op.iLike]: `%${search}%`}},
             ]
         };
     }
@@ -22,7 +21,12 @@ const retrieveUsersService = async (req) => {
     }
 
     const {count, rows} = await User.findAndCountAll({
-        where,
+        where: {
+            ...where,
+            role: {
+                [Op.ne]: 'super admin'
+            }
+        },
         limit,
         offset: page * limit,
         order: [['id', 'DESC']]

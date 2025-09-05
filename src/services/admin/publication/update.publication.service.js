@@ -7,7 +7,7 @@ const imageOptimizer = require("../../../helpers/imageOptimizer");
 
 const updatePublicationService = async (req) => {
 
-    const {id, title, subTitle, description, pages, price, isbn, publisher, publicationDate, storeLink} = req.body;
+    const {id, title, subTitle, description, authors, pages, price, isbn, publisher, publicationDate, storeLink} = req.body;
     const files = req.files;
 
     let uploadedImage = {};
@@ -36,6 +36,7 @@ const updatePublicationService = async (req) => {
         title,
         subTitle,
         description,
+        authors,
         pages,
         price,
         isbn,

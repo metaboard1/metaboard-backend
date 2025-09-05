@@ -24,6 +24,9 @@ module.exports = {
             password: {
                 type: Sequelize.STRING
             },
+            role: {
+                type: Sequelize.ENUM('super admin', 'admin', 'manager')
+            },
             isActive: {
                 type: Sequelize.BOOLEAN
             },

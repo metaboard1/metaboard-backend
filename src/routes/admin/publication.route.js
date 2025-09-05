@@ -9,18 +9,18 @@ const {
     createPublicationController, retrievePublicationController, updatePublicationStatusController,
     updatePublicationController, deletePublicationController
 } = require("../../controllers/admin/publication");
-const {validateFilesMiddleware} = require("../../middlewares");
+const {validateFilesMiddleware, adminAuthMiddleware} = require("../../middlewares");
 
 
-retrieveRouter.get('/admin/metarule/publications', wrapRequestHandler(retrievePublicationController));
+retrieveRouter.get('/admin/metarule/publications', adminAuthMiddleware(), wrapRequestHandler(retrievePublicationController));
 
-createRouter.post('/admin/metarule/publication', validate(createPublicationValidation), validateFilesMiddleware(['coverImage'], [{
+createRouter.post('/admin/metarule/publication', adminAuthMiddleware(), validate(createPublicationValidation), validateFilesMiddleware(['coverImage'], [{
     fileTypes: ['image/jpeg', 'image/png', 'image/webp'],
     size: 300
 }]), wrapRequestHandler(createPublicationController));
 
-updateRouter.put('/admin/metarule/publication', validate(updatePublicationValidation), wrapRequestHandler(updatePublicationController));
+updateRouter.put('/admin/metarule/publication', adminAuthMiddleware(), validate(updatePublicationValidation), wrapRequestHandler(updatePublicationController));
 
-patchRouter.patch('/admin/metarule/publication-status', validate(updatePublicationStatusValidation), wrapRequestHandler(updatePublicationStatusController));
+patchRouter.patch('/admin/metarule/publication-status', adminAuthMiddleware(), validate(updatePublicationStatusValidation), wrapRequestHandler(updatePublicationStatusController));
 
-deleteRouter.delete('/admin/metarule/publication', validate(deletePublicationValidation), wrapRequestHandler(deletePublicationController));
+deleteRouter.delete('/admin/metarule/publication', adminAuthMiddleware(), validate(deletePublicationValidation), wrapRequestHandler(deletePublicationController));

@@ -6,9 +6,13 @@ const imageOptimizer = require("../../../helpers/imageOptimizer");
 
 const createUserService = async (req) => {
 
-    const {name, email, password} = req.body;
+    const {name, email, password, role} = req.body;
     const {avatar} = req.files;
+    const tokenData = req.response;
 
+    if (tokenData.role === 'manager') {
+        return error('You do not have permission to access this resource.');
+    }
 
     const optimizedImage = await imageOptimizer(avatar.data);
 
@@ -24,12 +28,13 @@ const createUserService = async (req) => {
             password: generateBcrypt(password),
             avatar: fileName + extension,
             avatarUrl,
+            role,
             isActive: false,
         }
     });
 
     if (!isCreated) {
-        return error('Email already in use.')
+        return error('Email already in use.');
     }
 
     user = user.get({plain: true});

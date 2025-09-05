@@ -12,8 +12,9 @@ const createPublicationValidation = [
     body('isbn').notEmpty().withMessage('ISBN no is required').bail().matches(isbnRegexp).withMessage('ISBN no must be valid.'),
     body('publisher').notEmpty().withMessage('Publisher name is required').bail().isString().withMessage('Publisher name must be a string'),
     body('publicationDate').notEmpty().withMessage('Publication date is required').bail().isISO8601().withMessage("Publication date must be a valid date.").toDate(),
-
+    body('authors').notEmpty().withMessage('Author names is required').bail().custom((tagsStr)=> tagsStr.trim().split(',').every((elem)=>/^[a-z]+$/.test(elem))).withMessage('Author names must contain only alphabets (a–z), for example: yash,joy,marcus and special characters are not allowed.'),
     body('storeLink').optional().isURL().withMessage('Store link must be a valid URL'),
+
     // body('storeLinks').optional().isJSON().withMessage('Store links must be valid JSON').customSanitizer((value) => JSON.parse(value)),
     // body('storeLinks.amazon').optional().isURL().withMessage('Amazon link must be a valid URL')
     //     .bail()

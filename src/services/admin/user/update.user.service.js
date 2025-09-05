@@ -8,6 +8,11 @@ const updateUserService = async (req) => {
 
     const {id, name, email, password} = req.body;
     const files = req.files;
+    const tokenData = req.response;
+
+    if (tokenData.role === 'manager') {
+        return error('You do not have permission to access this resource.');
+    }
 
     const user = await User.findByPk(id);
 

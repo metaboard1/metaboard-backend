@@ -4,6 +4,11 @@ const {User} = require('../../../models');
 const updateUserStatusService = async (req) => {
 
     const {id} = req.body;
+    const tokenData = req.response;
+
+    if (tokenData.role === 'manager') {
+        return error('You do not have permission to access this resource.');
+    }
 
     const user = await User.findByPk(id)
 
