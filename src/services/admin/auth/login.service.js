@@ -16,7 +16,7 @@ const loginService = async (req) => {
     user = user.get({plain: true});
     delete user.password;
 
-    const token = generateJWT(user, {expiresIn: '7d'});
+    const token = generateJWT(user, {expiresIn: '1d'});
 
     return success('', {user, token});
 

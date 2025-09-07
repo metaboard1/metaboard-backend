@@ -18,7 +18,7 @@ retrieveRouter.get('/admin/documents', adminAuthMiddleware(), wrapRequestHandler
 
 createRouter.post('/admin/document', adminAuthMiddleware(), validate(createDocumentValidation), validateFilesMiddleware(['file'], [{
     fileTypes: ['application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'],
-    size: 300
+    size: 5000
 }]), wrapRequestHandler(createDocumentController));
 
 updateRouter.put('/admin/document', adminAuthMiddleware(), validate(updateDocumentValidation), wrapRequestHandler(updateDocumentController));
