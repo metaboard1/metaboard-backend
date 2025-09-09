@@ -5,7 +5,7 @@ const imageOptimizer = require("../../../helpers/imageOptimizer");
 
 const createPublicationService = async (req) => {
 
-    const {title, subTitle, description, authors, pages, price, isbn, publisher, publicationDate, storeLink} = req.body;
+    const {title, description, authors, pages, price, isbn, publisher, publicationDate, storeLink} = req.body;
 
     const {coverImage} = req.files;
 
@@ -19,7 +19,6 @@ const createPublicationService = async (req) => {
         where: {title, isbn},
         defaults: {
             title,
-            subTitle,
             description,
             authors,
             pages,

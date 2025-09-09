@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Publication.init({
     title: DataTypes.STRING,
-    subTitle: DataTypes.STRING,
     description: DataTypes.TEXT,
     authors: DataTypes.STRING,
     pages: DataTypes.INTEGER,
