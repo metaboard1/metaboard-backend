@@ -6,7 +6,7 @@ const imageOptimizer = require("../../../helpers/imageOptimizer");
 
 const updateUserService = async (req) => {
 
-    const {id, name, email, password} = req.body;
+    const {id, name, email, password, role} = req.body;
     const files = req.files;
     const tokenData = req.response;
 
@@ -22,7 +22,8 @@ const updateUserService = async (req) => {
 
     const dbPayload = {
         name,
-        email
+        email,
+        role
     };
 
     if (password) {
